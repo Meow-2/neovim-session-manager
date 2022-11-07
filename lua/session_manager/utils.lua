@@ -69,13 +69,14 @@ function utils.load_session(filename, discard_current)
   -- Scedule buffers cleanup to avoid callback issues and source the session.
   vim.schedule(function()
     -- Delete all buffers first except the current one to avoid entering buffers scheduled for deletion.
-    local current_buffer = vim.api.nvim_get_current_buf()
-    for _, buffer in ipairs(vim.api.nvim_list_bufs()) do
-      if vim.api.nvim_buf_is_valid(buffer) and buffer ~= current_buffer then
-        vim.api.nvim_buf_delete(buffer, { force = true })
-      end
-    end
-    vim.api.nvim_buf_delete(current_buffer, { force = true })
+    -- local current_buffer = vim.api.nvim_get_current_buf()
+    -- for _, buffer in ipairs(vim.api.nvim_list_bufs()) do
+    --   if vim.api.nvim_buf_is_valid(buffer) and buffer ~= current_buffer then
+    --     vim.api.nvim_buf_delete(buffer, { force = true })
+    --   end
+    -- end
+    -- vim.api.nvim_buf_delete(current_buffer, { force = true })
+    vim.api.nvim_command('%bd!')
 
     utils.is_session = true
     vim.api.nvim_exec_autocmds('User', { pattern = 'SessionLoadPre' })
@@ -93,11 +94,11 @@ function utils.save_session(filename)
   end
 
   -- Remove all non-file and utility buffers because they cannot be saved.
-  for _, buffer in ipairs(vim.api.nvim_list_bufs()) do
-    if vim.api.nvim_buf_is_valid(buffer) and not utils.is_restorable(buffer) then
-      vim.api.nvim_buf_delete(buffer, { force = true })
-    end
-  end
+  -- for _, buffer in ipairs(vim.api.nvim_list_bufs()) do
+  --   if vim.api.nvim_buf_is_valid(buffer) and not utils.is_restorable(buffer) then
+  --     vim.api.nvim_buf_delete(buffer, { force = true })
+  --   end
+  -- end
 
   -- Clear all passed arguments to avoid re-executing them.
   if vim.fn.argc() > 0 then
