@@ -76,7 +76,7 @@ function utils.load_session(filename, discard_current)
     --   end
     -- end
     -- vim.api.nvim_buf_delete(current_buffer, { force = true })
-    vim.api.nvim_command('%bd!')
+    vim.api.nvim_command('silent %bd!')
 
     utils.is_session = true
     vim.api.nvim_exec_autocmds('User', { pattern = 'SessionLoadPre' })
